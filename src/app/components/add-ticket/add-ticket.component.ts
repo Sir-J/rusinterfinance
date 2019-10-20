@@ -91,6 +91,16 @@ export class AddTicketComponent implements OnInit, OnDestroy {
                     this.arrivals = [];
                 }
             });
+
+        this.ticketForm
+            .get('arrivalDateTime')
+            .valueChanges.pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(val => (this.ticket.arrivalDatetime = val));
+
+        this.ticketForm
+            .get('departureDateTime')
+            .valueChanges.pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(val => (this.ticket.departureDatetime = val));
     }
 
     selectedDeparture($event: MatAutocompleteSelectedEvent) {
@@ -138,8 +148,6 @@ export class AddTicketComponent implements OnInit, OnDestroy {
     }
 
     add() {
-        this.ticket.arrivalDatetime = this.ticketForm.get('arrivalDateTime').value;
-        this.ticket.departureDatetime = this.ticketForm.get('departureDateTime').value;
         this.addTicket.emit(this.ticket);
         this.ticketForm.reset();
         this.ticket = new TicketDto();
