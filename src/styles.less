@@ -1,0 +1,75 @@
+/* You can add global styles to this file, and also import other style files */
+
+@grid-breakpoints: {
+    xs: 0;
+    sm: 576px;
+    md: 768px;
+    lg: 992px;
+    xl: 1200px;
+};
+
+@import 'bootstrap-less-port/less/bootstrap-reboot';
+@import 'bootstrap-less-port/less/bootstrap-grid';
+@import '~ng-pick-datetime/assets/style/picker.min.css';
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+    .container {
+        height: calc(100vh - 64px);
+        padding: 20px 0px;
+    }
+}
+
+.m-b {
+    margin-bottom: 20px;
+}
+
+.google-map {
+    width: 100%;
+    height: 500px;
+}
+
+.ticket {
+    p {
+        margin-bottom: 4px;
+    }
+
+    hr {
+        display: block;
+        margin: 5px -16px;
+        border: none;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: rgba(0, 0, 0, 0.12);
+    }
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(#434f67, 0.2);
+}
+
+.h-226 {
+    height: 226px;
+
+    .fixed-content {
+        overflow-y: auto;
+        height: 145px;
+        overflow-x: hidden;
+    }
+}

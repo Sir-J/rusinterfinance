@@ -1,0 +1,48 @@
+<form class="row" [formGroup]="ticketForm">
+    <div class="col-6">
+        <mat-form-field>
+            <input type="text" placeholder="Вылет" aria-label="Number" matInput formControlName="departure" [matAutocomplete]="departure" />
+            <mat-autocomplete #departure="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedDeparture($event)">
+                <mat-option *ngFor="let el of departures" [value]="el"> {{ el.city }}({{ el.country }}) </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="col-6">
+        <mat-form-field>
+            <input type="text" placeholder="Прилёт" aria-label="Number" matInput formControlName="arrival" [matAutocomplete]="arrival" />
+            <mat-autocomplete #arrival="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedArrival($event)">
+                <mat-option *ngFor="let el of arrivals" [value]="el"> {{ el.city }}({{ el.country }}) </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <mat-form-field [owlDateTimeTrigger]="departurePicker">
+            <input
+                [owlDateTime]="departurePicker"
+                matInput
+                readonly
+                placeholder="Дата и время вылета"
+                formControlName="departureDateTime"
+            />
+            <owl-date-time #departurePicker></owl-date-time>
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <mat-form-field [owlDateTimeTrigger]="arrivalPicker">
+            <input
+                [owlDateTime]="arrivalPicker"
+                matInput
+                readonly
+                placeholder="Дата и время прилёта"
+                formControlName="arrivalDateTime"
+                [min]="getMinArrivalDateTime()"
+            />
+            <owl-date-time #arrivalPicker></owl-date-time>
+        </mat-form-field>
+    </div>
+</form>
+<div class="row">
+    <div class="col text-center">
+        <button mat-raised-button color="primary" [disabled]="!ticketForm.valid" (click)="add()" type="button">Добавить</button>
+    </div>
+</div>

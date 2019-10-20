@@ -1,0 +1,65 @@
+<mat-sidenav-container>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" class="position-fixed">
+            <span class="mat-spacer"></span>
+            <span>{{ title }}</span>
+        </mat-toolbar>
+    </mat-sidenav-content>
+    <mat-sidenav-content>
+        <div class="container">
+            <div class="row m-b">
+                <div class="col-6">
+                    <mat-card class="h-226">
+                        <h2>Добавьте билет:</h2>
+                        <mat-card-content>
+                            <div class="row">
+                                <div class="col">
+                                    <app-add-ticket (addTicket)="addTicket($event)"></app-add-ticket>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-card class="h-226">
+                                <h2>Билеты:</h2>
+                                <mat-card-content class="fixed-content">
+                                    <div *ngFor="let ticket of tickets; let last = last" class="ticket">
+                                        <p>{{ ticket.departure.city }} - {{ ticket.arrival.city }}</p>
+                                        <small>
+                                            {{ ticket.departureDatetime | date: 'dd.MM.yyyy HH:mm' }} -
+                                            {{ ticket.arrivalDatetime | date: 'dd.MM.yyyy HH:mm' }}
+                                        </small>
+                                        <hr *ngIf="!last" />
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        <div class="col-6">
+                            <mat-card class="h-226">
+                                <h2>Маршруты:</h2>
+                                <mat-card-content class="fixed-content">
+                                    <p *ngFor="let path of routes">
+                                        {{ path.name }}
+                                    </p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-card>
+                        <h2>Карта маршрутов:</h2>
+                        <mat-card-content>
+                            <app-google-map [tickets]="tickets" [routes]="routes"></app-google-map>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
