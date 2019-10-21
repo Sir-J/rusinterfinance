@@ -8,4 +8,9 @@ export class PathDto {
     get name(): string {
         return `${this.from} - ${this.to}`;
     }
+
+    constructor(from?: string, tickets?: Array<TicketDto>) {
+        this.from = from;
+        this.tickets = tickets ? tickets : [];
+    }
 }

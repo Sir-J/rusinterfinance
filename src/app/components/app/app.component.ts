@@ -13,10 +13,10 @@ export class AppComponent {
     tickets = new Array<TicketDto>();
     routes = new Array<PathDto>();
     cities = [];
-    polylines = [];
     constructor() {}
 
     createPath(ticket: TicketDto, path: PathDto) {
+        console.log(ticket);
         path.tickets.push(ticket);
         path.to = ticket.arrival.city;
 
@@ -26,31 +26,43 @@ export class AppComponent {
                 moment(t.departureDatetime).isAfter(moment(ticket.arrivalDatetime)) &&
                 !path.tickets.map((pT: TicketDto) => pT.departure.city).includes(t.arrival.city)
         );
-        if (next.length) {
-            next.forEach(tick => {
-                const nextPath = new PathDto();
-                nextPath.from = path.from;
-                nextPath.tickets = path.tickets.slice();
 
-                this.createPath(tick, nextPath);
-
-                this.routes.push(nextPath);
-            });
+        if (next.length > 1) {
+            const prevTickets = [...path.tickets];
+            while (next.length > 0) {
+                this.createPath(next[0], path);
+                this.routes.push(path);
+                path = new PathDto(path.from, [...prevTickets]);
+                next.pop();
+            }
         }
+
+        // if (next.length) {
+        //     next.forEach(tick => {
+        //         const nextPath = new PathDto();
+        //         nextPath.from = path.from;
+        //         nextPath.tickets = path.tickets.slice();
+
+        //         this.createPath(tick, nextPath);
+
+        //         this.routes.push(nextPath);
+        //     });
+        // } else {
+
+        // }
     }
 
     addTicket(ticket: TicketDto) {
         this.tickets.push(ticket);
-        this.tickets = this.tickets.slice();
+        this.tickets = [...this.tickets];
 
-        this.polylines.forEach(el => el.setMap(null));
-        this.polylines = [];
         this.routes = [];
 
         this.tickets.forEach((t: TicketDto) => {
-            const path = new PathDto();
-            path.from = t.departure.city;
+            const path = new PathDto(t.departure.city);
             this.createPath(t, path);
         });
+
+        console.log(this.tickets);
     }
 }

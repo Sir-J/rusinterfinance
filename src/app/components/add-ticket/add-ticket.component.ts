@@ -149,10 +149,8 @@ export class AddTicketComponent implements OnInit, OnDestroy {
 
     add() {
         this.addTicket.emit(this.ticket);
-        this.ticketForm.reset();
         this.ticket = new TicketDto();
-        this.arrivalTimeZone = undefined;
-        this.departureTimeZone = undefined;
+        this.ticketForm.reset();
     }
 
     ngOnDestroy(): void {
