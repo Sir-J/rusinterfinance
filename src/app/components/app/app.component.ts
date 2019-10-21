@@ -11,12 +11,12 @@ export class AppComponent {
     title = 'rusinterfinance';
 
     tickets = new Array<TicketDto>();
-    routes = new Array<PathDto>();
     cities = [];
+    routes = [];
+    private _routes = new Map();
     constructor() {}
 
     createPath(ticket: TicketDto, path: PathDto) {
-        console.log(ticket);
         path.tickets.push(ticket);
         path.to = ticket.arrival.city;
 
@@ -27,42 +27,35 @@ export class AppComponent {
                 !path.tickets.map((pT: TicketDto) => pT.departure.city).includes(t.arrival.city)
         );
 
-        if (next.length > 1) {
+        if (next.length > 0) {
             const prevTickets = [...path.tickets];
+            if (path.tickets.length > 1) {
+                /**
+                 * Сохраняем предыдущий маршрут, как самостоятельный маршрут
+                 */
+                this._routes.set(path.id, path);
+                path = new PathDto(path.from, [...prevTickets]);
+            }
             while (next.length > 0) {
                 this.createPath(next[0], path);
-                this.routes.push(path);
+                this._routes.set(path.id, path);
                 path = new PathDto(path.from, [...prevTickets]);
-                next.pop();
+                next.shift();
             }
         }
-
-        // if (next.length) {
-        //     next.forEach(tick => {
-        //         const nextPath = new PathDto();
-        //         nextPath.from = path.from;
-        //         nextPath.tickets = path.tickets.slice();
-
-        //         this.createPath(tick, nextPath);
-
-        //         this.routes.push(nextPath);
-        //     });
-        // } else {
-
-        // }
     }
 
     addTicket(ticket: TicketDto) {
         this.tickets.push(ticket);
         this.tickets = [...this.tickets];
 
-        this.routes = [];
+        this._routes = new Map();
 
         this.tickets.forEach((t: TicketDto) => {
             const path = new PathDto(t.departure.city);
             this.createPath(t, path);
         });
 
-        console.log(this.tickets);
+        this.routes = [...this._routes.values()];
     }
 }

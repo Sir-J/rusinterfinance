@@ -41,7 +41,7 @@
                             <mat-card class="h-226">
                                 <h2>Маршруты:</h2>
                                 <mat-card-content class="fixed-content">
-                                    <p *ngFor="let path of routes">
+                                    <p *ngFor="let path of routes.values()">
                                         {{ path.name }}
                                     </p>
                                 </mat-card-content>
